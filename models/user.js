@@ -6,6 +6,11 @@ var schema = new Schema({
         type : String,
         unique : false,
         required : true
+    },
+    status : {
+        type : String,
+        unique : false,
+        required : true
     }
 });
 

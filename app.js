@@ -78,9 +78,11 @@ io.on('connection', function (socket) {
     });
 
     socket.on('negativeAnswer', function (data) {
-        console.log('negativeAnswer');
-        console.log(data);
-        socket.broadcast.to(data['_body']).emit('playRequestRejected', userName);
+        socket.broadcast.to(data.id).emit('playRequestRejected', data.userName);
+    });
+
+    socket.on('positiveAnswer', function (data) {
+        socket.broadcast.to(data.id).emit('playRequestAccepted', data);
     });
 
     socket.on('disconnect', function () {

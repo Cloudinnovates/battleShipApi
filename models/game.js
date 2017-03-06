@@ -1,12 +1,20 @@
 var mongoose = require('../libs/mongoose'),
     Schema = mongoose.Schema;
 
-var schema = new Schema({
-    username : {
-        type : String,
-        unique : false,
-        required : true
-    }
+var playerSchema = new Schema({
+    _id: String,
+    shipsCellsCoords: Array,
+    userShoots: Array,
+    opponentShoots: Array,
+    shipCellsDestroyed: Array,
+    pureShots: Array,
+    canFire: Boolean
 });
 
-exports.Game = mongoose.model('Game', schema);
+
+var playerSchema = new Schema([
+    playerSchema,
+    playerSchema
+]);
+
+exports.Game = mongoose.model('Game', playerSchema);

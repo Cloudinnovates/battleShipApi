@@ -6,7 +6,8 @@ var url = require('url');
 router.post('/', function (req, res, next) {
     var username = req.body.username;
     var user = new User({
-        username: username
+        username: username,
+        status: 'free'
     });
     user.save(function (err, newUser) {
         res.send(newUser);
