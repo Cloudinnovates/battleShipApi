@@ -82,7 +82,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('positiveAnswer', function (data) {
-        socket.broadcast.to(data.id).emit('playRequestAccepted', data);
+        socket.broadcast.to(data.id).emit('playRequestAccepted', data.newGameId);
     });
 
     socket.on('disconnect', function () {

@@ -11,10 +11,8 @@ var playerSchema = new Schema({
     canFire: Boolean
 });
 
-
-var playerSchema = new Schema([
-    playerSchema,
-    playerSchema
-]);
+var playerSchema = new Schema({
+    players : [playerSchema, playerSchema]
+});
 
 exports.Game = mongoose.model('Game', playerSchema);
