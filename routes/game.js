@@ -54,7 +54,6 @@ router.post('/get-fleet', function (req, res, next) {
 });
 
 router.post('/shoot', function (req, res, next) {
-    var gameId = req.body.gameId;
     var userId = req.body.userId;
     var coords = req.body.coords;
     var user = {};
@@ -72,20 +71,18 @@ router.post('/shoot', function (req, res, next) {
         if(user.canFire) {
             for (var i = 0; i < user.shipCellsDestroyed.length; i++) {
                 if(JSON.stringify(user.shipCellsDestroyed[i]) == JSON.stringify(coords)) {
-                    res.send({ result: 'wrong', message: ' You made this move already!'});
+                    res.send({ result: 'wait', message: ' You made this move already!'});
                     return false;
                     break;
                 }
             }
-
             for (var i = 0; i < user.pureShots.length; i++) {
                 if(JSON.stringify(user.pureShots[i]) == JSON.stringify(coords)) {
-                    res.send({ result: 'wrong', message: ' You made this move already!'});
+                    res.send({ result: 'wait', message: ' You made this move already!'});
                     return false;
                     break;
                 }
             }
-
             var shipsCoords = opponent.shipsCellsCoords;
             user.canFire = false;
             opponent.canFire = true;
@@ -99,8 +96,8 @@ router.post('/shoot', function (req, res, next) {
                 user.canFire = true;
                 opponent.canFire = false;
                 user.shipCellsDestroyed = user.shipCellsDestroyed.concat(coords);
-                if(user.shipCellsDestroyed.length > 18) {
-                    res.send({ result: 'end', message: 'You win!'});
+                if(user.shipCellsDestroyed.length == '20') {
+                    res.send({ result: 'end', message: coords});
                 } else  {
                     res.send({ result: 'hit', message: coords});
                 }
@@ -117,6 +114,29 @@ router.post('/shoot', function (req, res, next) {
             res.send({ result: 'wait', message: 'Please wait... It is not your turn.'});
         }
     });
+});
+
+router.post('/get-data', function (req, res, next) {
+    var userId = req.body.userId;
+    var user = {};
+    var opponent = {};
+    Game.findById(req.body.gameId, function (err, doc) {
+        if(doc.players[0]._id == userId) {
+            user = doc.players[0];
+        } else {
+            user = doc.players[1];
+        }
+        res.send(JSON.stringify({
+            user : {
+                pureShots : user.pureShots,
+                shipCellsDestroyed : user.shipCellsDestroyed
+            }
+        }));
+    });
+});
+
+router.post('/end', function (req, res, next) {
+
 });
 
 module.exports = router;
