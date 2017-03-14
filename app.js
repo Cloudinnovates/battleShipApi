@@ -86,7 +86,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('endGame', function (data) {
-        socket.broadcast.to(data).emit('gameLose');
+        socket.broadcast.to(data.id).emit('gameLose');
     });
 
     socket.on('disconnect', function () {

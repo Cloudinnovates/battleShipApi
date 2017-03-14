@@ -32,7 +32,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.post('/set-fleet', function (req, res, next) {
-    Game.update({'players._id': req.body.userId}, {'$set': {
+    Game.update({$and: [{'_id': req.body.gameId}, {'players._id': req.body.userId}]}, {'$set': {
         'players.$.shipsCellsCoords': req.body['fleet']
     }}, function(err) {
         if(!err) {
