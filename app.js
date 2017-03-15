@@ -82,11 +82,17 @@ io.on('connection', function (socket) {
     });
 
     socket.on('positiveAnswer', function (data) {
-        socket.broadcast.to(data.id).emit('playRequestAccepted', {newGameId : data.newGameId, opponentId : data.userId});
+        socket.broadcast.to(data.id).emit('playRequestAccepted', {newGameId : data.newGameId, opponentId : data.userId, opponentName : data.userName});
     });
 
     socket.on('endGame', function (data) {
         socket.broadcast.to(data.id).emit('gameLose');
+    });
+
+    socket.on('opponentShootAction', function (data) {
+        console.log('data');
+        console.log(data);
+        socket.broadcast.to(data.id).emit('opponentShoot', {shootInfo : data.shootInfo});
     });
 
     socket.on('disconnect', function () {
