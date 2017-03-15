@@ -90,9 +90,11 @@ io.on('connection', function (socket) {
     });
 
     socket.on('opponentShootAction', function (data) {
-        console.log('data');
-        console.log(data);
-        socket.broadcast.to(data.id).emit('opponentShoot', {shootInfo : data.shootInfo});
+        socket.broadcast.to(data.id).emit('opponentShoot');
+    });
+
+    socket.on('opponentReadyAction', function (data) {
+        socket.broadcast.to(data.id).emit('opponentReady');
     });
 
     socket.on('disconnect', function () {

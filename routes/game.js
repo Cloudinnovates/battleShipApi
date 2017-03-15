@@ -123,14 +123,21 @@ router.post('/get-data', function (req, res, next) {
     Game.findById(req.body.gameId, function (err, doc) {
         if(doc.players[0]._id == userId) {
             user = doc.players[0];
+            opponent = doc.players[1];
         } else {
             user = doc.players[1];
+            opponent = doc.players[0];
         }
         res.send(JSON.stringify({
             user : {
                 pureShots : user.pureShots,
                 shipCellsDestroyed : user.shipCellsDestroyed
-            }
+            },
+            opponent : {
+                pureShots : opponent.pureShots,
+                shipCellsDestroyed : opponent.shipCellsDestroyed
+            },
+            canFire : user.canFire
         }));
     });
 });
